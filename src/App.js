@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css';
 import Articles from './components/articles';
+import Article from './components/article';
 
 function App() {
   const [articles, setArticles] = useState([])
@@ -23,6 +24,7 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' exact element={<Articles articles={articles}/>} />
+        <Route path='articles/:articleId' element={<Article />} />
       </Routes>
     </Router>
   );
