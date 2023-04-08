@@ -140,6 +140,19 @@
   flex-wrap: wrap;
 }
 
+.load-more {
+  background-color: var(--color-blue-pastel);
+  padding: 5px 10px;
+  border-radius: 8px;
+  border-color: var(--color-sky-blue);
+}
+
+.load-more:hover {
+  background-color: var(--color-dark-slate-gray);
+  border-color: var(--color-light-black);
+  color: var(--color-white);
+}
+
 .news-item {
   flex-direction: column;
   max-width: 230px;

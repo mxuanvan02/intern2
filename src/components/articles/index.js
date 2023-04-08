@@ -19,6 +19,23 @@ const Articles = ({ articles }) => {
             </li>
           ))}
         </ul>
+        <div class="news-bar">
+        <h2 class="title-news-bar">Du lịch</h2>
+        <div class="news-item flex-container">
+          <img src="images/nuocngoaixintien.png" alt="người nước ngoài xin tiền để đi du lịch" class="news-img" />
+            <a class="news-title" href="details-page.html">Hai người nước ngoài đứng trên đường phố Đà Nẵng xin 'cứu giúp'</a>
+            <p class="news-author">Vienamnet</p>
+            <time class="news-date" datetime="2023-02-23T14:00:00.000Z">2023-02-23T14:00:00.000Z</time>
+        </div>
+        <div class="crossbar"></div>
+        <h2 class="title-news-bar">Giải trí</h2>
+        <div class="news-item flex-container">
+          <img src="images/bangkieu.png" alt="ca sĩ Bằng Kiều" class="news-img" />
+            <a class="news-title" href="details-page.html">Bằng Kiều: 'Khán giả của tôi đều là người giàu'</a>
+            <p class="news-author">vnexpress</p>
+            <time class="news-date" datetime="2023-02-22T14:00:00.000Z">2023-02-22T14:00:00.000Z</time>
+        </div>
+      </div>
       </div>
   )
 }
