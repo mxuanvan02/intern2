@@ -1,0 +1,115 @@
+/* Color */
+:root {
+  --color-black: #111;
+  --color-light-black: #333333;
+  --color-white: #ffffff;
+  --color-blue: #386bee;
+  --color-grey: rgb(128, 128, 128);
+  --color-red: #f74141;
+  --color-white-grey: rgb(240, 240, 240);
+  --color-white-blue: #bedbff;
+  --color-white-pink: #f2bdeb;
+  --color-pink-pastel: #F2C2CF;
+  --color-blue-pastel: #BBEDF2;
+  --color-dark-slate-gray: #2f4f4f;
+  --color-sky-blue: #87CEFA;
+}
+
+
+/********************* Some key for class *********************/
+/***** Display *****/
+.block-container {
+  display: block;
+}
+
+.none-container {
+  display: none;
+}
+
+/* Flex container */
+.flex-container {
+  display: flex; 
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-10 {
+  flex: 10%;
+}
+
+.flex-20 {
+  flex: 20%;
+}
+
+.flex-30 {
+  flex: 30%;
+}
+
+.flex-40 {
+  flex: 40%;
+}
+
+.flex-50 {
+  flex: 50%;
+}
+
+.flex-60 {
+  flex: 60%;
+}
+
+.flex-70 {
+  flex: 70%;
+}
+
+.flex-80 {
+  flex: 80%;
+}
+
+.flex-90 {
+  flex: 90%;
+}
+
+.flex-100 {
+  flex: 100%;
+}
+
+/* Text */
+.uppercase {
+  text-transform: uppercase;
+}
+
+.text-normal {
+  font-weight: normal; 
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
