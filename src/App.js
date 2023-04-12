@@ -1,20 +1,37 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css';
 import Home from './components/Home';
+import NotFound from './components/NotFound';
 
 
 function App() {
-  const [page, setPage] = useState(1)
+  // Fetch API
+  const [loadingHots, setLoadingHots] = useState(false)
+  const [errorHots, setErrorHots] = useState(false)
   const [articles, setArticles] = useState([])
   const [hots, setHots] = useState([])
-  var urlHots = `https://newsapi.org/v2/top-headlines?country=us&pageSize=5&page=${page}&apiKey=5b2a127c4bf1411c8a3de122fd6c7fde`
-  var urlArticles = `https://newsapi.org/v2/everything?q=apple&pageSize=10&apiKey=5b2a127c4bf1411c8a3de122fd6c7fde`
+  const [loadingArticles, setLoadingArticles] = useState(false)
+  const [errorArticles, setErrorArticles] = useState(false)
+  // Limit data display
+  const [pageArticles, setPageArticles] = useState(1)
+  const [pageHots, setPageHots] = useState(1)
+  const [totalPageHots, setTotalPageHots] = useState(0)
+  const [totalPageArticles, setTotalPageArticles] = useState(0)
+  // Filter
+  // const [from, setFrom] = useState("")
+  // const [to, setTo] = useState("")
+  var urlHots = `https://newsapi.org/v2/top-headlines?country=us&pageSize=5&page=${pageHots}&apiKey=5b2a127c4bf1411c8a3de122fd6c7fde`
+  var urlArticles = `https://newsapi.org/v2/everything?q=apple&pageSize=10&page=${pageArticles}&apiKey=5b2a127c4bf1411c8a3de122fd6c7fde`
+  
+  // Fetch API
+  useEffect(() => {
+    getHots()
+  }, [pageHots])
 
   useEffect(() => {
     getArticles()
-    getHots()
-  }, [page])
+  }, [pageArticles])
 
   const fetchArticles = async () => {
     const res = await fetch(urlArticles)
@@ -23,8 +40,16 @@ function App() {
   }
 
   const getArticles = async () => {
-    const articlesFromServer = await fetchArticles()
-    setArticles(articlesFromServer.articles)
+    try {
+      setErrorArticles(false)
+      setLoadingArticles(true)
+      const articlesFromServer = await fetchArticles()
+      setArticles(articlesFromServer.articles)
+      setTotalPageArticles(articlesFromServer.totalResults)
+    } catch (error) {
+      setErrorArticles(true)
+    }
+    setLoadingArticles(false)
   }
 
   const fetchHots = async () => {
@@ -34,21 +59,45 @@ function App() {
   }
 
   const getHots = async () => {
-    const hotsFromServer = await fetchHots()
-    setHots(hotsFromServer.articles)
+    try {
+      setErrorHots(false)
+      setLoadingHots(true)
+      const hotsFromServer = await fetchHots()
+      setHots(hotsFromServer.articles)
+      setTotalPageHots(hotsFromServer.totalResults)
+    } catch (error) {
+      setErrorHots(true)
+    }
+    setLoadingHots(false)
   }
 
-  const loadMore = () => {
-    setPage((prev) => prev + 1)
+  // Page
+  const pageRightHots = () => {
+    setPageHots((prev) => prev + 1)
   }
 
+  const pageLeftHots = () => {
+    setPageHots((prev) => prev - 1)
+  }
+
+  const pageRightArticles = () => {
+    setPageArticles((prev) => prev + 1)
+  }
+
+  const pageLeftArticles = () => {
+    setPageArticles((prev) => prev - 1)
+  }
   console.log(articles)
   console.log(hots)
-  console.log(page)
   return (
     <Router>
       <Routes>
-        <Route path='/' exact element={<Home articles={articles} hots={hots} loadMore={loadMore} />} />
+        <Route path='/' exact element={<Home articles={articles} hots={hots}
+                                      loadingHots={loadingHots} errorHots={errorHots}
+                                      loadingArticles={loadingArticles} errorArticles={errorArticles}
+                                      pageRightHots={pageHots * 5 > totalPageHots ? "more" : pageRightHots} pageLeftHots={pageHots * 5 < 1 ? "less" : pageLeftHots}
+                                      pageRightArticles={pageArticles * 10 > totalPageArticles ? "more" : pageRightArticles} pageLeftArticles={pageArticles * 10 < 1 ? "less" : pageLeftArticles} />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );

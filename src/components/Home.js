@@ -1,13 +1,28 @@
 import React from 'react'
-import Articles from './articles';
-import Hots from './hots';
+import Articles from './Articles';
+import Hots from './Hots';
+import Loading from './Loading';
 
-const Home = ({ articles, hots, loadMore }) => {
+const Home = ({ articles, hots,
+                loadingHots, errorHots,
+                loadingArticles, errorArticles,
+                pageRightHots, pageLeftHots,
+                pageRightArticles, pageLeftArticles }) => {
+  if (errorHots) return <div>Something went wrong in hots...</div>;
+  if (errorArticles) return <div>Something went wrong in articles...</div>;
   return (
     <div className="body-contents">
-      <Hots hots={hots} />
-      <div className='text-center'><button className="load-more" onClick={loadMore}>Load More</button></div>
-      {/* <div className="filter-box">
+      {loadingHots ? <Loading /> : (
+        
+      <>
+        <Hots hots={hots} />
+        <div className='text-center'>
+        <button className="load-more" onClick={pageLeftHots}>&#60;</button>
+        <button className="load-more" onClick={pageRightHots}>&#62;</button>
+        </div>
+      </>
+      )}
+      <div className="filter-box">
         <p>Lọc theo thể loại: </p>
         <select id="filter-select" onchange="filterFunction()">
           <option value="tatca">Tất cả</option>
@@ -26,9 +41,17 @@ const Home = ({ articles, hots, loadMore }) => {
       <div className="filter-date">
         <p>Lọc theo thời gian: </p>
         <input type="text" placeholder="yyyy-mm-dd" id="filter-date" onKeyUp="filterDate()" />
-      </div> */}
-      <Articles articles={articles} />
-
+      </div>
+      {loadingArticles ? <Loading /> : (
+        <>
+          <Articles articles={articles} />
+          <div className='text-center'>
+            <button className="load-more" onClick={pageLeftArticles}>&#60;</button>
+            <button className="load-more" onClick={pageRightArticles}>&#62;</button>
+          </div>
+        </>
+      )}
+      
       
     </div>
 
