@@ -23,8 +23,8 @@ const Hots = () => {
         ))}
       </div>
         <div className='text-center'>
-          <button className="load-more" disabled={(page == 1) ? true : false} onClick={pageLeft}>&#60;</button>
-          <button className="load-more" disabled={(page * 4 > state.totalPage) ? true : false} onClick={pageRight}>&#62;</button>
+          <button className="load-more" disabled={page == 1 ? true : false} onClick={pageLeft}>&#60;</button>
+          <button className="load-more" disabled={page * 4 > state.totalPage ? true : false} onClick={pageRight}>&#62;</button>
         </div>
     </div>
   )

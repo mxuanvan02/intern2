@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { HOTS_URL } from "../components/config";
 
 export const useHotsFetch = () => {
   const [state, setState] = useState({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [page, setPage] = useState(1)
-  var urlHots = `https://newsapi.org/v2/top-headlines?country=us&pageSize=4&page=${page}&apiKey=5b2a127c4bf1411c8a3de122fd6c7fde`
+  var urlHots = `${HOTS_URL}${page}`
 
   useEffect(() => {
     getArticles()
@@ -24,7 +25,7 @@ export const useHotsFetch = () => {
       const articlesFromServer = await fetchArticles()
       setState({
         results: articlesFromServer.articles,
-        totalPage: articlesFromServer.totalPage
+        totalPage: articlesFromServer.totalResults
       })
     } catch (error) {
       setError(true)

@@ -21,10 +21,6 @@ const Home = () => {
           <option value="thethao">Thể thao</option>
         </select>
       </div>
-      <div className="filter-date">
-        <p>Lọc theo thời gian: </p>
-        <input type="text" placeholder="yyyy-mm-dd" id="filter-date" onKeyUp="filterDate()" />
-      </div>
           <Articles />
     </div>
 

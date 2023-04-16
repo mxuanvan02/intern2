@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
+import { ARTICLES_URL } from "../components/config";
+
 
 export const useArticlesFetch = () => {
   const [state, setState] = useState({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [page, setPage] = useState(1)
-  var urlArticles = `https://newsapi.org/v2/everything?q=apple&pageSize=10&page=${page}&apiKey=5b2a127c4bf1411c8a3de122fd6c7fde`
+  const [from, setFrom] = useState('')
+  const [to, setTo] = useState('')
+
+  // Filter
+  var urlArticles = `${ARTICLES_URL}&page=${page}`
 
   useEffect(() => {
     getArticles()
@@ -24,7 +30,7 @@ export const useArticlesFetch = () => {
       const articlesFromServer = await fetchArticles()
       setState({
         results: articlesFromServer.articles,
-        totalPage: articlesFromServer.totalPage
+        totalPage: articlesFromServer.totalResults
       })
     } catch (error) {
       setError(true)
