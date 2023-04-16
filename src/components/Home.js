@@ -1,27 +1,11 @@
 import React from 'react'
 import Articles from './Articles';
 import Hots from './Hots';
-import Loading from './Loading';
 
-const Home = ({ articles, hots,
-                loadingHots, errorHots,
-                loadingArticles, errorArticles,
-                pageRightHots, pageLeftHots,
-                pageRightArticles, pageLeftArticles }) => {
-  if (errorHots) return <div>Something went wrong in hots...</div>;
-  if (errorArticles) return <div>Something went wrong in articles...</div>;
+const Home = () => {
   return (
     <div className="body-contents">
-      {loadingHots ? <Loading /> : (
-        
-      <>
-        <Hots hots={hots} />
-        <div className='text-center'>
-        <button className="load-more" onClick={pageLeftHots}>&#60;</button>
-        <button className="load-more" onClick={pageRightHots}>&#62;</button>
-        </div>
-      </>
-      )}
+        <Hots />
       <div className="filter-box">
         <p>Lọc theo thể loại: </p>
         <select id="filter-select" onchange="filterFunction()">
@@ -37,22 +21,11 @@ const Home = ({ articles, hots,
           <option value="thethao">Thể thao</option>
         </select>
       </div>
-
       <div className="filter-date">
         <p>Lọc theo thời gian: </p>
         <input type="text" placeholder="yyyy-mm-dd" id="filter-date" onKeyUp="filterDate()" />
       </div>
-      {loadingArticles ? <Loading /> : (
-        <>
-          <Articles articles={articles} />
-          <div className='text-center'>
-            <button className="load-more" onClick={pageLeftArticles}>&#60;</button>
-            <button className="load-more" onClick={pageRightArticles}>&#62;</button>
-          </div>
-        </>
-      )}
-      
-      
+          <Articles />
     </div>
 
   )
