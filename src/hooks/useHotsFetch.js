@@ -6,7 +6,8 @@ export const useHotsFetch = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [page, setPage] = useState(1)
-  var urlHots = `${HOTS_URL}${page}`
+
+  var urlHots = `${HOTS_URL}&page=${page}`
 
   useEffect(() => {
     getArticles()
@@ -41,5 +42,5 @@ export const useHotsFetch = () => {
     setPage((prev) => prev - 1)
   } 
   
-  return {state, loading, error, page, pageRight, pageLeft}
+  return {state, loading, error, page, pageRight, pageLeft }
 }

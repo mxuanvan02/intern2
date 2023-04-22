@@ -1,59 +1,71 @@
 import React from "react";
+import NoImage from "../../images/no_image.jpg";
 import { useArticlesFetch } from "../../hooks/useArticlesFetch";
 import Loading from "../Loading";
-// Calculate milliseconds in a year
-const minute = 1000 * 60;
-const hour = minute * 60;
-const day = hour * 24;
-const month = day * 30;
-const year = day * 365;
+import { TimeFilter } from "../TimeFilter";
+import { convTime } from "../../helpers";
 
 const Articles = () => {
-  const { state, loading, error, page, pageRight, pageLeft } = useArticlesFetch();
-  console.log(state);
-  const realTime = Date.now();
+  const {
+    state,
+    loading,
+    error,
+    page,
+    pageRight,
+    pageLeft,
+    timeFilter,
+    time,
+    handleFilterParam,
+    filterParam,
+  } = useArticlesFetch();
   if (loading) return <Loading />;
   if (error) return <div>Something went wrong...</div>;
   return (
     <>
+      <div className="filter-box">
+        <p>Lọc theo thể loại: </p>
+        <select
+          id="filter-select"
+          defaultValue={filterParam}
+          onChange={(e) => {
+            handleFilterParam(e.target.value);
+          }}
+        >
+          <option value="All">All</option>
+          <option value="Apple">Apple</option>
+          <option value="Tesla">Tesla</option>
+          <option value="Bitcoin">Bitcoin</option>
+          <option value="Nasa">Nasa</option>
+        </select>
+      </div>
+      <TimeFilter timeFilter={timeFilter} />
       <div className="group-news-other">
         <ul className="other-news" id="list-latest-news">
-          {state.results.map((article, i) => {
-            var articleTime = new Date(`${article.publishedAt}`);
-            var time = realTime - articleTime.getTime();
-            var str = "";
-            if (time > year) {
-              time = time / year;
-              str = "years";
-            } else if (time > month) {
-              time = time / month;
-              str = "months";
-            } else if (time > day) {
-              time = time / day;
-              str = "days";
-            } else if (time > hour) {
-              time = time / hour;
-              str = "hours";
-            } else {
-              time = time / minute;
-              str = "minutes";
-            }
-            time = Math.round(time);
+          {time ? state.filteredResults.map((article, i) => {
+            var cvt = convTime(article.publishedAt);
             return (
               <li key={i}>
                 <div className="other-news-item">
-                  <img
-                    src={article.urlToImage}
-                    alt={article.title}
-                    className="news-img"
-                  />
+                  {article.urlToImage ? (
+                    <img
+                      src={article.urlToImage}
+                      alt={article.title}
+                      className="news-img"
+                    />
+                  ) : (
+                    <img
+                      src={NoImage}
+                      alt={article.title}
+                      className="news-img"
+                    />
+                  )}
                   <div className="other-news-contents">
                     <a className="news-title" href={article.url}>
                       <b>{article.title}</b>
                     </a>
                     <p className="news-author">{article.source.name}</p>
                     <time className="news-date">
-                      {time} {str} ago.
+                      {cvt.time} {cvt.str} ago.
                     </time>
                     <p className="short-contents-other">
                       {article.description}
@@ -62,7 +74,7 @@ const Articles = () => {
                 </div>
               </li>
             );
-          })}
+          }): null}
           <div className="text-center">
             <button
               className="load-more"
