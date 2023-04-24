@@ -13,20 +13,21 @@ export const convTime = (timeValue) => {
 
   if (time > year) {
     time = time / year;
-    str = "years";
+    str = "year(s)";
   } else if (time > month) {
     time = time / month;
-    str = "months";
+    str = "month(s)";
   } else if (time > day) {
     time = time / day;
-    str = "days";
+    str = "day(s)";
   } else if (time > hour) {
     time = time / hour;
-    str = "hours";
+    str = "hour(s)";
   } else {
     time = time / minute;
-    str = "minutes";
+    str = "minute(s)";
   }
   time = Math.round(time);
+  str += " ago."
   return { time, str };
 };

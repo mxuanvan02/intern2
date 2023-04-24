@@ -1,10 +1,10 @@
 import React from 'react'
 
-export const TimeFilter = ({ timeFilter }) => {
+export const TimeFilter = ({ timeFilter, value}) => {
   return (
     <div className="filter-date">
-      <p>From: </p>
-      <input type="text" placeholder="yyyy-mm-dd" onChange={e => timeFilter(e.target.value)} />
+      <p>Date: </p>
+      <input type="text" placeholder="yyyy-mm-dd" defaultValue={value} onChange={e => timeFilter(e.target.value)} />
     </div>
   );
 };

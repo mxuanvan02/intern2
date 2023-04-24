@@ -2,6 +2,7 @@ import React from "react";
 import Fire from "../../images/fire.png";
 import { useHotsFetch } from "../../hooks/useHotsFetch";
 import Loading from "../Loading";
+import { convTime } from "../../helpers";
 
 const Hots = () => {
   const { state, loading, error, page, pageRight, pageLeft } = useHotsFetch();
@@ -15,18 +16,20 @@ const Hots = () => {
       </div>
       
       <div className="hot-news-list flex-container flex-row">
-        {state.results.map((hot, i) => (
+        {state.results.map((hot, i) => {
+          var cvt = convTime(hot.publishedAt);
+          return (
           <div className="news-item flex-container" key={i}>
             <img src={hot.urlToImage} alt={hot.title} className="news-img" />
             <a className="news-title" href={hot.url}>
               {hot.title}
             </a>
             <p className="news-author">{hot.source.name}</p>
-            <time className="news-date" dateTime={hot.publishedAt}>
-              {hot.publishedAt}
+            <time className="news-date" dateTime={cvt.time}>
+              {cvt.time} {cvt.str}
             </time>
           </div>
-        ))}
+        )})}
       </div>
       <div className="text-center">
         <button

@@ -4,6 +4,8 @@ import { useArticlesFetch } from "../../hooks/useArticlesFetch";
 import Loading from "../Loading";
 import { TimeFilter } from "../TimeFilter";
 import { convTime } from "../../helpers";
+import NotFound from "../NotFound";
+import FilterBox from "../FilterBox";
 
 const Articles = () => {
   const {
@@ -13,8 +15,8 @@ const Articles = () => {
     page,
     pageRight,
     pageLeft,
-    timeFilter,
     time,
+    timeFilter,
     handleFilterParam,
     filterParam,
   } = useArticlesFetch();
@@ -22,26 +24,11 @@ const Articles = () => {
   if (error) return <div>Something went wrong...</div>;
   return (
     <>
-      <div className="filter-box">
-        <p>Lọc theo thể loại: </p>
-        <select
-          id="filter-select"
-          defaultValue={filterParam}
-          onChange={(e) => {
-            handleFilterParam(e.target.value);
-          }}
-        >
-          <option value="All">All</option>
-          <option value="Apple">Apple</option>
-          <option value="Tesla">Tesla</option>
-          <option value="Bitcoin">Bitcoin</option>
-          <option value="Nasa">Nasa</option>
-        </select>
-      </div>
-      <TimeFilter timeFilter={timeFilter} />
+      <FilterBox filterParam={filterParam} handleFilterParam={handleFilterParam} />
+      <TimeFilter timeFilter={timeFilter} value={time} />
       <div className="group-news-other">
         <ul className="other-news" id="list-latest-news">
-          {time ? state.filteredResults.map((article, i) => {
+          {state.results ? state.results.map((article, i) => {
             var cvt = convTime(article.publishedAt);
             return (
               <li key={i}>
@@ -65,7 +52,7 @@ const Articles = () => {
                     </a>
                     <p className="news-author">{article.source.name}</p>
                     <time className="news-date">
-                      {cvt.time} {cvt.str} ago.
+                      {cvt.time} {cvt.str}
                     </time>
                     <p className="short-contents-other">
                       {article.description}
@@ -74,7 +61,7 @@ const Articles = () => {
                 </div>
               </li>
             );
-          }): null}
+          }) : <NotFound />}
           <div className="text-center">
             <button
               className="load-more"
@@ -92,40 +79,6 @@ const Articles = () => {
             </button>
           </div>
         </ul>
-
-        <div className="news-bar">
-          <h2 className="title-news-bar">Du lịch</h2>
-          <div className="news-item flex-container">
-            <img
-              src="images/nuocngoaixintien.png"
-              alt="người nước ngoài xin tiền để đi du lịch"
-              className="news-img"
-            />
-            <a className="news-title" href="details-page.html">
-              Hai người nước ngoài đứng trên đường phố Đà Nẵng xin 'cứu giúp'
-            </a>
-            <p className="news-author">Vienamnet</p>
-            <time className="news-date" datetime="2023-02-23T14:00:00.000Z">
-              2023-02-23T14:00:00.000Z
-            </time>
-          </div>
-          <div className="crossbar"></div>
-          <h2 className="title-news-bar">Giải trí</h2>
-          <div className="news-item flex-container">
-            <img
-              src="images/bangkieu.png"
-              alt="ca sĩ Bằng Kiều"
-              className="news-img"
-            />
-            <a className="news-title" href="details-page.html">
-              Bằng Kiều: 'Khán giả của tôi đều là người giàu'
-            </a>
-            <p className="news-author">vnexpress</p>
-            <time className="news-date" datetime="2023-02-22T14:00:00.000Z">
-              2023-02-22T14:00:00.000Z
-            </time>
-          </div>
-        </div>
       </div>
     </>
   );
