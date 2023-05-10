@@ -1,47 +1,100 @@
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
+import Cookies from "universal-cookie";
 
-const  LoginPage  = () => {
-    return ( 
-        <div className="flex-container login__wrap">
-        <form className="login-form flex-container" id="loginForm" >
-          <div className="flex-row">
-            <h1 className="login__title">Đăng nhập</h1>
-            <div className="login-form__item">
-              <label className="login-form__label">Tên đăng nhập</label>
-              <br />
-              <input 
-              type="text" 
-              id="userUserName" 
-              placeholder="Tên đăng nhập" 
-              className="login-form__control" 
-              
-              required/>
-            </div>
-            <div className="login-form__item">
-              <label className="login-form__label">Mật khẩu</label>
-              <br />
-              <input 
-              type="password" 
-              id="userPassword" 
-              placeholder="Mật khẩu" 
-              className="login-form__control" 
-              
+import AuthContext from "../../context/AuthProvider";
+
+const LoginPage = () => {
+  const navigate = useNavigate()
+  const cookie = new Cookies()
+
+  const { setAuth } = useContext(AuthContext)
+
+  const [data, setData] = useState(null)
+  const [isAuth, setIsAuth] = useState(false)
+
+  const handleChange = (e) => {
+    const { name, value: val } = e.target
+    setData({
+      ...data,
+      [name]: val,
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await axios
+      .post("/auth/signin", data)
+      .then((response) => {
+        cookie.set("access_token", response.data.access_token)
+        getMe()
+      })
+      .catch((err) => console.log(err))
+  }
+
+  const getMe = async () => {
+    setIsAuth(false)
+    const token = cookie.get('access_token') || null
+    if (token) {
+      await axios
+        .get("/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then((response) => {
+          const data = response?.data
+          setAuth(data)
+          setIsAuth(true)
+        })
+        .catch((err) => console.log(err))
+    }
+  }
+  if (isAuth) navigate("/")
+  return (
+    <div className="flex-container login__wrap">
+      <form className="login-form flex-container" id="loginForm" onSubmit={handleSubmit} method="POST">
+        <div className="flex-row">
+          <h1 className="login__title">Đăng nhập</h1>
+          <div className="login-form__item">
+            <label className="login-form__label">Email</label>
+            <br />
+            <input
+              type="text"
+              id="userEmail"
+              placeholder="Email"
+              className="login-form__control"
+              name="email"
+              onChange={handleChange}
               required />
-            </div>
-            <div className="login-form__check">
-            <input type="checkbox" id="rememberMe" value="IsRememberMe" className="login-form__check-input"/>
-              <label className="form-check-label">Nhớ tên đăng nhập</label>
-            </div>
-            <div className="text-center"><button type="submit" id="login_btn" value="login" onclick="onLogin()" className="btn login-form__btn">Đăng nhập</button></div>
-            <div className="login-form__redirect-wrap">
-              <div className="login-form__to-main-page"><Link to="/">Đến trang chủ.</Link></div>
-              <div className="login-form__forgot"><Link to="#">Quên mật khẩu?</Link></div>
-              <div className="login-form__register"><Link to="/register">Đăng ký tài khoản.</Link></div>
-            </div>
           </div>
-        </form>
-      </div>
-     );
+          <div className="login-form__item">
+            <label className="login-form__label">Mật khẩu</label>
+            <br />
+            <input
+              type="password"
+              id="userPassword"
+              placeholder="Mật khẩu"
+              className="login-form__control"
+              name="password"
+              onChange={handleChange}
+              required />
+          </div>
+          <div className="login-form__check">
+            <input type="checkbox" id="rememberMe" value="IsRememberMe" className="login-form__check-input" />
+            <label className="form-check-label">Nhớ tên đăng nhập</label>
+          </div>
+          <div className="text-center"><button type="submit" id="login_btn" value="login" onclick="onLogin()" className="btn login-form__btn">Đăng nhập</button></div>
+          <div className="login-form__redirect-wrap">
+            <div className="login-form__to-main-page"><Link to="/">Đến trang chủ.</Link></div>
+            <div className="login-form__forgot"><Link to="#">Quên mật khẩu?</Link></div>
+            <div className="login-form__register"><Link to="/register">Đăng ký tài khoản.</Link></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
 }
- 
-export default  LoginPage;
+
+export default LoginPage;
