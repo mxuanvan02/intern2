@@ -57,8 +57,6 @@ export const useArticlesFetch = () => {
       setTime('')
     }
 }
-  console.log((new Date(time)))
-  console.log(state.results)
 
   const handleFilterParam = (value) => {
     setFilterParam(value)
