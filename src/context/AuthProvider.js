@@ -7,10 +7,12 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
   const [isAuth, setIsAuth] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const cookie = new Cookies()
 
   const getMe = async () => {
+    setIsLoading(true)
     const token = cookie.get("access_token") || null;
     if (token) {
       await axios
@@ -22,13 +24,15 @@ export const AuthProvider = ({ children }) => {
         .then((response) => {
           const data = response.data;
           setAuth(data);
+          setIsAuth(true)
         })
-        .catch((err) => console.log(err));
+        .catch((err) => setIsAuth(false));
     }
+    setIsLoading(false)
   };
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, isAuth, setIsAuth, getMe }}>
+    <AuthContext.Provider value={{ auth, setAuth, isAuth, setIsAuth, isLoading, setIsLoading, getMe }}>
       {children}
     </AuthContext.Provider>
   );
