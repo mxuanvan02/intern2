@@ -7,6 +7,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
   const [isAuth, setIsAuth] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const cookie = new Cookies()
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, isAuth, setIsAuth, isLoading, setIsLoading, getMe }}>
+    <AuthContext.Provider value={{ auth, setAuth, isAdmin, setIsAdmin, isAuth, setIsAuth, isLoading, setIsLoading, getMe }}>
       {children}
     </AuthContext.Provider>
   );

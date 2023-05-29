@@ -27,8 +27,8 @@ const RegisterPage = () => {
         cookie.set("access_token", response.data.access_token)
         setIsAuth(true)
         getMe()
-        navigate("/")
         console.log("DANG KY THANH CONG")
+        navigate("/", {replace: true})
       })
       .catch((err) => console.log(err))
   }

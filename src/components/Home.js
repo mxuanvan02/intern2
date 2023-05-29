@@ -5,7 +5,7 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 
 const Home = () => {
-  const { auth, isAuth, setIsAuth } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   console.log(auth)
   return (
     <div className="body-contents">

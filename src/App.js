@@ -5,6 +5,8 @@ import NotFound from './components/NotFound';
 import LoginPage from './components/login/LoginPage';
 import RegisterPage from './components/register/RegisterPage';
 import User from './components/User';
+import RequireAuth from './components/RequireAuth';
+import AdminPage from './components/Admin';
 
 const App = () => {
   return (
@@ -15,6 +17,9 @@ const App = () => {
         <Route path='/login' exact element={<LoginPage />} />
         <Route path='/register' exact element={<RegisterPage/>}/>
         <Route path='/me' element={<User />} />
+        <Route element={<RequireAuth />}>
+          <Route path='/admin' element={<AdminPage />} />
+        </Route>
       </Routes>
     </Router>
   );

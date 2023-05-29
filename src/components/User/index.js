@@ -10,17 +10,17 @@ const User = () => {
   const { auth, isAuth, isLoading, getMe } = useContext(AuthContext)
   useEffect(() => {
     getMe()
-
   }, [isAuth])
   console.log(auth)
-  if (isLoading) return (<Loading />)
+  // if (isLoading) return (<Loading />)
   return (
     <>
-      {/* {isAuth ? <> */}
-      <h1>{auth.fullName}</h1>
-      <h1>{auth.email}</h1>
-      {/* </>
-          : <Link to="/login" className='text-black'><h1>Bạn cần phải đăng nhập trước.</h1></Link>} */}
+      {isAuth && !isLoading
+        ? <>
+          <h1>{auth.fullName}</h1>
+          <h1>{auth.email}</h1>
+        </>
+        : <Link to="/login" className='text-black'><h1>Bạn cần phải đăng nhập trước.</h1></Link>}
     </>
   )
 }

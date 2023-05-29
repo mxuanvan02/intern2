@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import Cookies from "universal-cookie";
 
@@ -29,7 +29,7 @@ const LoginPage = () => {
       .then((response) => {
         cookie.set("access_token", response.data.access_token);
         setIsAuth(true);
-        navigate("/")
+        navigate("/", {replace: true})
       })
       .catch((err) => console.log(err));
     getMe();
